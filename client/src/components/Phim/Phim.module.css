@@ -1,0 +1,47 @@
+.poster {
+    position: relative;
+}
+
+.poster:hover .overlay {
+    opacity: 1;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    transition: all 300ms;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: grid;
+    place-items: center;
+}
+
+.overlay button {
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 15px 30px;
+    color: white;
+    font-weight: 400;
+}
+
+.overlay button:hover {
+    background-color: #f26b38;
+    border-color: #f26b38;
+}
+
+
+.phim p {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #43464b;
+    text-transform: capitalize;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-transform: uppercase;
+}

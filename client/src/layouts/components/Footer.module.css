@@ -1,0 +1,38 @@
+.footer {
+    background-color: #1a1a1a;
+    height:fit-content;
+    padding: 20px 0;
+}
+
+.footer .footerGroup p,
+.footer .footerGroup a {
+    color: #a0a3a7;
+    font-weight: 300;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.footer .footerGroup .title {
+    font-weight: 600;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.7);
+    border-left: 4px solid #f26b38;
+    padding-left: 10px;
+}
+
+
+.footer .subscribeBtn {
+    position: absolute;
+    right: 8px;
+    color: #0FA958;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+.footer button  {
+    background-color: transparent;
+    font-size: 28px;
+    margin-right: 12px;
+    color: #a0a3a7;
+}

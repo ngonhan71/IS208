@@ -1,0 +1,215 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  font-size: 16px;
+  color: black;
+  background-color: #f3f4f7;
+}
+
+body {
+  font-size: 16px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a {
+  transition-duration: 200ms;
+  color: #a0a3a7;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:focus, a:hover {
+  cursor: pointer;
+  color: #a0a3a7;
+}
+
+a:hover,
+p:hover {
+  color: #f26b38
+}
+
+img {
+  width: 100%;
+  object-fit: cover;
+}
+
+button {
+  color: black;
+  background-color: #f26b38;
+  color: white;
+  border: 0;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:disabled,
+button.disabled {
+  user-select: none;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+svg {
+  vertical-align: inherit;
+}
+
+.form-control {
+  padding: 8px 10px;
+  font-size: 15px;
+  outline: none;
+  color: #363636;
+  border: 1px solid #E1E1E1;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+.main {
+  margin: 200px 0;
+}
+
+
+.table > tbody,
+.table > thead {
+  vertical-align: middle;
+}
+
+.table > thead {
+  text-align: center;
+}
+
+.card {
+  background-color: transparent;
+}
+
+.d-flex-center {
+  display: flex;
+  align-items: center;
+}
+
+input[type="radio"],
+input[type="radio"] ~ span,
+input[type="radio"] ~ label {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.wrapper {
+  margin-left: 240px;
+  background-color: #f3f4f7;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.nav-link:focus {
+  color: white;
+}
+
+.form-control.search {
+  width: auto;
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.poster {
+  width: 150px;
+}
+
+.container-poster {
+  position: relative;
+}
+
+.container-poster .icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 60px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.auth-page {
+  background-color: #212529;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: -20px;
+}
+
+.auth-page > div {
+  width: 100%;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.auth-page .auth-wrapper {
+  background-color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.auth-page .title {
+  text-align: center;
+  font-size: 30px;
+  color: black;
+}
+
+.auth-page button {
+  width: 100%;
+}
+
+.error-msg {
+  color: #dc3545;
+}
+
+a span,
+p span {
+  margin-left: 10px;
+}
+
+
+.icon-method {
+  width: 50px;
+  margin-left: 10px;
+}
+
+.ck-editor p:hover {
+  color: initial;
+}

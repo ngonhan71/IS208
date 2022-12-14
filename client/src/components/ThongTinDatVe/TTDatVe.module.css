@@ -1,0 +1,44 @@
+.wrapper {
+    width: 100%;
+    background-color: #f1f1f1;
+    padding: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper span {
+    margin: 0;
+}
+
+.wrapper img {
+    width: 150px;
+    margin: 0 auto;
+}
+
+.wrapper .key {
+    font-weight: 500;
+}
+
+.total {
+    color: #f26b38;
+    font-size: 20px;
+}
+
+.action {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper .action button {
+    text-transform: uppercase;
+    color: #ffffff;
+    background-color: #f26b38;
+    padding: 10px 15px;
+    margin: 0 10px;
+}
+
+.wrapper p {
+    margin-bottom: 10px;
+}

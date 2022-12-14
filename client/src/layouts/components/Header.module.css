@@ -1,0 +1,206 @@
+.header {
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background-color:  #f7f9fa;
+}
+
+.navigateAdmin {
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.header .bookstoreHighlight {
+    font-weight: 700;
+    color: #f26b38;
+}
+
+.logo {
+    min-height: 80px;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.searchWrapper {
+    position: relative;
+}
+
+ .formControl {
+    width: 350px;
+    height: 40px;
+}
+
+.searchBtn {
+    position: absolute;
+    right: 0;
+    color: white;
+    background-color: #f26b38;
+    width: 40px;
+    height: 100%;
+}
+
+.resetKey {
+    position: absolute;
+    right: 40px;
+    color: #555;
+    line-height: normal;
+    width: 40px;
+    height: 100%;
+    display: none;
+}
+
+.loading {
+    position: absolute;
+    right: 60px;
+    display: grid;
+    place-items: center;
+    height: 100%;
+}
+
+.resetKey.active {
+    display: block;
+}
+
+.resultSearch {
+    position: absolute;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.15);
+    width: 100%;
+}
+
+
+.resultItem {
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+}
+
+.img {
+    flex-shrink: 0;
+    width: 100px;
+}
+
+.name {
+    font-weight: 500;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resultItem img {
+    height: 80px;
+    object-fit: contain;
+}
+
+.resultItem .bookInfo {
+    margin-left: 10px;
+}
+
+.auth {
+    margin-left: auto;
+}
+
+.auth p {
+    color: #a0a3a7;
+}
+
+.navbar {
+    padding: 0;
+    background-color: black;
+    color: white
+}
+
+.navItem {
+    padding: 0 50px;
+    position: relative;
+}
+
+.navbar .navItem a,
+.navbar .navItem p {
+    display: block;
+    padding: 0px 20px;
+    font-weight: 600;
+    line-height: 50px;
+    color: #eeee;
+    cursor: pointer;
+}
+
+
+.navbar .navItem a:hover,
+.navbar .navItem p:hover {
+    color: #f26b38;
+}
+
+.navbar .navItem a.active,
+.navbar .navItem p.active {
+    background-color: #f26b38;
+    color: white;
+    border-radius: 4px;
+}
+
+.navItem:hover .subNav {
+    display: block;
+}
+
+.subNav {
+    position: absolute;
+    z-index: 100;
+    background-color: black;
+    width: 100%;
+    left: 0;
+    display: none;
+}
+
+.subNav ul {
+    flex-direction: column;
+    padding: 10px;
+    margin: 0;
+    min-width: 250px;
+}
+
+.navbar .navItem .subNav a {
+    padding: 20px 10px;
+    line-height: 1;
+}
+
+
+
+.account {
+    position: relative;
+    cursor: pointer;
+}
+
+.account .accountPopup {
+    position: absolute;
+    z-index: 100;
+    text-align: left;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    display: none;
+}
+
+.account:hover .accountPopup {
+    display: block;
+}
+
+.accountPopup .item {
+    border-bottom: 1px solid #eee;
+}
+
+.accountPopup .popupLink {
+    display: block;
+    padding: 8px;
+}
+
+.accountPopup .popupLink:hover {
+    background-color: #fafafa;
+}
