@@ -50,4 +50,8 @@ export const routes = [
     title: 'Hóa đơn',
     path: '/admin/hoadon',
   },
+  {
+    title: 'Khách hàng',
+    path: '/admin/khachhang',
+  },
 ];

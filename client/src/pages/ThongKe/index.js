@@ -4,13 +4,13 @@ import {
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement,
+    BarElement,
     Title,
     Tooltip,
     Legend,
     Filler,
   } from "chart.js";
-import { Line, Pie } from "react-chartjs-2";
+import { Pie, Bar } from "react-chartjs-2";
 
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
@@ -31,7 +31,7 @@ ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement,
+    BarElement,
     Title,
     Tooltip,
     Legend,
@@ -50,9 +50,16 @@ export default function ThongKe() {
     const [selectedRC, setSelectedRC] = useState()
 
     const [selectedRCRevenue, setSelectedRCRevenue] = useState({})
+    const [selectedRCCountSC, setSelectedRCCountSC] = useState(0)
+
+    const [revenueTime, setRevenueTime] = useState(1)
+    const [showRangeDate, setShowRangeDate] = useState(false)
+    const [rangeDate, setRangeDate] = useState({})
+    const [totalRevenue, setTotalRevenue] = useState(0)
 
     const [phimBanChayOrderBy, setPhimBanChayOrderBy] = useState("so-luong")
     const [rapchieuBanChayOrderBy, setRapchieuBanChayOrderBy] = useState("gia")
+
 
     useEffect(() => {
         const getData = async () => {
@@ -81,42 +88,39 @@ export default function ThongKe() {
               const all = { ma_rapchieu: 0, ten_rapchieu: "Tất cả rạp" }
               setDsRapChieu([all, ...data])
               setSelectedRC(all.ma_rapchieu)
-              setSelectedRCRevenue(all.ma_rapchieu)
+              setSelectedRCRevenue(all)
             } catch (error) {
               console.log(error);
             }
           };
-          const getCountSCChartData = async () => {
-            try {
-                const { data } = await suatchieuApi.getCountLifeTime()
-                setCountSCLifeTimeChartData({
-                labels: data.map((item) => format.formatDate(item.ngay_chieu)),
-                    datasets: [
-                        {
-                            label: "Số lượng",
-                            data: data.map((item) => item.count),
-                            fill: true,
-                            borderColor: "rgb(75, 192, 192)",
-                            backgroundColor: "rgba(75, 192, 192, 0.3)",
-                        },
-                    ],
-                });
-               
-            } catch (error) {
-                console.log(error)
-            }
-        }
+          
         getDSRapChieu();
         getData()
-        getCountSCChartData()
     }, [])
+
+    useEffect(() => {
+        if (revenueTime === 2) {
+            setShowRangeDate(true)
+        } else {
+            const now = new Date()
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1)
+            const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+            const start = firstDay.toLocaleString("en-GB").slice(0, 10).split('/').reverse().join('-')
+            const end = lastDay.toLocaleString("en-GB").slice(0, 10).split('/').reverse().join('-')
+            setShowRangeDate(false)
+            setRangeDate({start, end})
+        }
+    }, [revenueTime])
 
 
     useEffect(() => {
+        
         const getRevenueChartData = async () => {
             try {
                 const { ma_rapchieu } = selectedRCRevenue
-                const { data } = await hoadonApi.getRevenueLifeTime({maRapChieu: ma_rapchieu === 0 ? "" : ma_rapchieu})
+                const { data } = await hoadonApi.getRevenueChart({maRapChieu: ma_rapchieu === 0 ? "" : ma_rapchieu, ...rangeDate})
+                const total = data.reduce((result, current) => result + (current.trigia * 1), 0)
+                setTotalRevenue(total)
                 setRevenueLifeTimeChartData({
                     labels: data.map((item) => format.formatDate(item.ngay_mua)),
                     datasets: [
@@ -125,7 +129,7 @@ export default function ThongKe() {
                             data: data.map((item) => item.trigia),
                             fill: true,
                             borderColor: "rgb(255, 99, 132)",
-                            backgroundColor: "rgba(255, 99, 132, 0.3)",
+                            backgroundColor: "rgba(255, 99, 132)",
                         },
                     ],
                   });
@@ -133,8 +137,13 @@ export default function ThongKe() {
                 console.log(error)
             }
         }
-        getRevenueChartData()
-    }, [selectedRCRevenue])
+      
+        if ((showRangeDate && new Date(rangeDate.start) <= new Date(rangeDate.end)) || (!showRangeDate)) {
+            getRevenueChartData()
+        } else  {
+            alert("Ngày bắt đầu phải nhỏ hơn ngày kết thúc!")
+        }
+    }, [selectedRCRevenue, rangeDate, showRangeDate])
 
     useEffect(() => {
         const getPhimBanChay = async () => {
@@ -180,6 +189,29 @@ export default function ThongKe() {
 
     }, [rapchieuBanChayOrderBy])
 
+    useEffect(() => {
+        const getCountSCChartData = async () => {
+            try {
+                const { data } = await suatchieuApi.getCountLifeTime({maRapChieu: selectedRCCountSC === 0 ? "" : selectedRCCountSC})
+                setCountSCLifeTimeChartData({
+                labels: data.map((item) => format.formatDate(item.ngay_chieu)),
+                    datasets: [
+                        {
+                            label: "Số lượng",
+                            data: data.map((item) => item.count),
+                            fill: true,
+                            borderColor: "rgb(255, 206, 86)",
+                            backgroundColor: "rgba(255, 206, 86)",
+                        },
+                    ],
+                });
+               
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getCountSCChartData()
+    }, [selectedRCCountSC])
 
     const handleChangeRapChieu = (e) => {
         const index = e.target.selectedIndex;
@@ -220,20 +252,49 @@ export default function ThongKe() {
             <Col xl={8}>
                 <div className={styles.chart}>
                     <h2>DOANH THU</h2>
-                    <label>Rạp chiếu</label>
-                    <select className="form-select"
-                      value={selectedRCRevenue?.ma_rapchieu}
-                      onChange={handleChangeRapChieu}
-                    >
-                      {dsRapChieu.length > 0 &&
-                        dsRapChieu.map(item => (
-                          <option key={item.ma_rapchieu} value={item.ma_rapchieu}>
-                            {item.ten_rapchieu}
-                          </option>
-                        ))}
-                    </select>
+                    <Row>
+                         <Col xl="3">
+                            <label>Rạp chiếu</label>
+                            <select className="form-select"
+                                    value={selectedRCRevenue?.ma_rapchieu}
+                                    onChange={handleChangeRapChieu}
+                            >
+                            {dsRapChieu.length > 0 &&
+                                dsRapChieu.map(item => (
+                                <option key={item.ma_rapchieu} value={item.ma_rapchieu}>
+                                    {item.ten_rapchieu}
+                                </option>
+                                ))}
+                            </select>
+                        </Col>
+                        <Col xl="3">
+                            <label>Thời gian</label>
+                            <select className="form-select"
+                                    value={revenueTime}
+                                    onChange={(e) => setRevenueTime(+e.target.value)}
+                            >
+                                <option value="1">Tháng này</option>
+                                <option value="2">Tùy chỉnh</option>
+                            </select>
+                                
+                        </Col>
+                        {showRangeDate && (
+                            <Col xl="6" className="d-flex">
+                                <div>
+                                    <label>Bắt đầu</label>
+                                    <input type="date" className="form-control" value={rangeDate?.start} 
+                                            onChange={(e) => setRangeDate(prev => { return {...prev, start: e.target.value}})} />
+                                </div>
+                                <div className="ms-4">
+                                    <label>Kết thúc</label>
+                                    <input type="date" className="form-control" value={rangeDate?.end} 
+                                    onChange={(e) => setRangeDate(prev => { return {...prev, end: e.target.value}})} />
+                                </div>
+                            </Col>
+                        )}
+                    </Row>
                     {revenueLifeTimeChartData && revenueLifeTimeChartData.datasets && (
-                        <Line
+                        <Bar
                             options={{
                                 responsive: true,
                                 plugins: {
@@ -242,7 +303,7 @@ export default function ThongKe() {
                                     },
                                     title: {
                                         display: true,
-                                        text: `Doanh thu ${selectedRCRevenue?.ten_rapchieu}`,
+                                        text: `Doanh thu ${selectedRCRevenue?.ten_rapchieu}: ${format.formatPrice(totalRevenue)}`,
                                     },
                                 },
                             }}
@@ -300,8 +361,20 @@ export default function ThongKe() {
             <Col xl={8}>
                 <div className={styles.chart}>
                     <h2>SỐ LƯỢNG SUẤT CHIẾU</h2>
+                    <label className="mt-4">Rạp chiếu</label>
+                    <select className="form-select"
+                      value={selectedRCCountSC}
+                      onChange={(e) => setSelectedRCCountSC(+e.target.value)}
+                    >
+                      {dsRapChieu.length > 0 &&
+                        dsRapChieu.map(item => (
+                          <option key={item.ma_rapchieu} value={item.ma_rapchieu}>
+                            {item.ten_rapchieu}
+                          </option>
+                        ))}
+                    </select>
                     {countSCLifeTimeChartData && countSCLifeTimeChartData.datasets && (
-                        <Line
+                        <Bar
                             options={{
                                 responsive: true,
                                 plugins: {

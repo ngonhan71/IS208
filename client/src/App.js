@@ -40,6 +40,8 @@ import DSNgayLe from "./pages/NgayLe/DSNgayLe"
 
 import DSHoaDon from "./pages/HoaDon/DSHoaDon"
 
+import DSKhachHang from "./pages/KhachHang/DSKhachHang"
+
 import { login } from "./redux/actions/user"
 import nguoidungApi from "./api/nguoidungApi"
 
@@ -109,11 +111,13 @@ function App() {
 
             <Route path="loaisuatchieu" element={<DSLoaiSuatChieu />}></Route>
 
-            <Route path="loaighe/" element={<DSLoaiGhe />}></Route>
+            <Route path="loaighe" element={<DSLoaiGhe />}></Route>
 
-            <Route path="ngayle/" element={<DSNgayLe />}></Route>
+            <Route path="ngayle" element={<DSNgayLe />}></Route>
 
-            <Route path="hoadon/" element={<DSHoaDon />}></Route>
+            <Route path="hoadon" element={<DSHoaDon />}></Route>
+
+            <Route path="khachhang" element={<DSKhachHang />}></Route>
           </Route>
         </Route>
       </Routes>

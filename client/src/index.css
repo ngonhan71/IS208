@@ -213,3 +213,8 @@ p span {
 .ck-editor p:hover {
   color: initial;
 }
+
+input[type="checkbox"],
+input[type="checkbox"] ~ label {
+  cursor: pointer;
+}

@@ -1,21 +1,22 @@
+const bcrypt = require('bcrypt')
 const nguoidungService = require('../services/nguoidung.service')
 
 const nguoidungController = {
-    // getAll: async (req, res) => {
-    //     try {
-    //         const [rows] = await loaigheService.getAll()
-    //         res.json({
-    //             data: rows,
-    //             message: "Ok",
-    //         })
-    //     } catch (error) {
-    //         console.log(error)
-    //         res.json({
-    //             status: "error",
-    //             error: error.message
-    //         })
-    //     }
-    // },
+    getAllKH: async (req, res) => {
+        try {
+            const [rows] = await nguoidungService.getAllKH()
+            res.json({
+                data: rows,
+                message: "Ok",
+            })
+        } catch (error) {
+            console.log(error)
+            res.json({
+                status: "error",
+                error: error.message
+            })
+        }
+    },
     getById: async (req, res) => {
         try {
             const { id } = req.params
@@ -34,33 +35,42 @@ const nguoidungController = {
             })
         }
     },
-    // update: async (req, res) => {
-    //     try {
-    //         const { tenLoaiGhe, soCho, giaCongThem, color } = req.body
-    //         const { id } = req.params
+    changePassword: async (req, res) => {
+        try {
+            const { currentPassword, newPassword } = req.body
+            const { id } = req.params
 
-    //         const [rows] = await loaigheService.update(id, {tenLoaiGhe, soCho, giaCongThem, color})
+            const [rows] = await nguoidungService.getById(id)
+            const user = rows[0]
 
-    //         if (rows?.affectedRows) {
-    //             res.json({
-    //                 data: rows,
-    //                 message: "Ok",
-    //             })
-    //         } else {
-    //             res.json({
-    //                 status: "error",
-    //                 error: "Không tìm thấy loại ghế!!"
-    //             })
-    //         }
+            if (user) {
+                const { matkhau: pwDB } = user
+                const check = await bcrypt.compare(currentPassword, pwDB)
+
+                if (check) {
+                    const hash = await bcrypt.hash(newPassword, 10)
+
+                    await nguoidungService.updatePassword(id, { password: hash })
+                    return res.json({
+                        message: "Ok",
+                    })
+                    
+                }
+                return res.json({
+                    status: "error",
+                    error: "Mật khẩu hiện tại không đúng!"
+                })
+            }
+
          
-    //     } catch (error) {
-    //         console.log(error)
-    //         res.json({
-    //             status: "error",
-    //             error: error.message
-    //         })
-    //     }
-    // }, 
+        } catch (error) {
+            console.log(error)
+            res.json({
+                status: "error",
+                error: error.message
+            })
+        }
+    }, 
 
 }
 

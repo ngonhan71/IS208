@@ -31,6 +31,10 @@ const nguoidungService = {
         const sql = "update nguoidung set trang_thai = ? where ma_nguoidung = ?"
         return await pool.query(sql, [trangthai, maNguoiDung])
     },
+    updatePassword: async (maNguoiDung, {password}) => {
+        const sql = `update nguoidung set matkhau = ? where ma_nguoidung = ?`
+        return await pool.query(sql, [password, maNguoiDung])
+    },
     // update: async (maSuatChieu, {gioChieu, ngayChieu, maPhongChieu, maPhim, maLoaiSuatChieu}) => {
     //     try {
     //         const sql = `   update suatchieu set gio_chieu = ?, ngay_chieu = ?, ma_phongchieu = ?,

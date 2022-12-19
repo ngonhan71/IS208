@@ -13,9 +13,9 @@ const hoadonApi = {
         const url = 'hoadon/revenue'
         return axiosClient.get(url)
     },
-    getRevenueLifeTime: ({maRapChieu}) => {
+    getRevenueChart: ({maRapChieu, start, end}) => {
         const url = 'hoadon/chart/revenue'
-        return axiosClient.get(url, { params: {maRapChieu}})
+        return axiosClient.get(url, { params: {maRapChieu, start, end}})
     },
     getCountLifeTime: () => {
         const url = 'hoadon/chart/count'

@@ -1,7 +1,12 @@
 import axiosClient from "./axiosClient"
 
 const nguoidungApi = {
+    getAllKH: () => {
+        const url = 'nguoidung/khachhang'
+        return axiosClient.get(url)
+    },
     register: (data) => {
+        
         const url = 'auth/register'
         return axiosClient.post(url, data)
     }, 
@@ -20,6 +25,10 @@ const nguoidungApi = {
     getMe: () => {
         const url = 'auth/me'
         return axiosClient.get(url)
+    },
+    changePassword: (id, data) => {
+        const url = `nguoidung/${id}/password`
+        return axiosClient.put(url, data)
     },
     
 }

@@ -156,7 +156,8 @@ const suatchieuController = {
     },
     getCountLifeTime: async (req, res) => {
         try {
-            const [result] = await suatchieuService.getCountLifeTime()
+            const { maRapChieu } = req.query
+            const [result] = await suatchieuService.getCountLifeTime({maRapChieu})
             res.json({
                 data: result,
                 message: "Ok",
@@ -194,10 +195,10 @@ const suatchieuController = {
             // kiem tra lsc
  
             const [dsSuatChieuHT] = await suatchieuService.getByMaPhongChieuAndNgayChieu(maPhongChieu, ngayChieu)
-            const thoiluongPhim = phim[0].thoiluong * 60000
             const ngaygioChieuMoiTime = new Date(`${ngayChieu} ${gioChieu}`).getTime()
             for(let i = 0; i < dsSuatChieuHT.length; i++) {
-                
+                const thoiluongPhim = dsSuatChieuHT[i].thoiluong * 60000
+
                 const nc = new Date(dsSuatChieuHT[i].ngay_chieu).toDateString()
                 const ngaygioChieu = new Date(`${nc} ${dsSuatChieuHT[i].gio_chieu}`).getTime()
 
@@ -262,9 +263,10 @@ const suatchieuController = {
             }
 
             const [dsSuatChieuHT] = await suatchieuService.getByMaPhongChieuAndNgayChieu(maPhongChieu, ngayChieu)
-            const thoiluongPhim = phim[0].thoiluong * 60000
             const ngaygioChieuMoiTime = new Date(`${ngayChieu} ${gioChieu}`).getTime()
             for(let i = 0; i < dsSuatChieuHT.length; i++) {
+                const thoiluongPhim = dsSuatChieuHT[i].thoiluong * 60000
+
                 if (dsSuatChieuHT[i].ma_suatchieu === +id) continue
                 const nc = new Date(dsSuatChieuHT[i].ngay_chieu).toDateString()
                 const ngaygioChieu = new Date(`${nc} ${dsSuatChieuHT[i].gio_chieu}`).getTime()

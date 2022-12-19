@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux"
 
 import { FaUserAlt } from "react-icons/fa";
@@ -13,6 +13,7 @@ function Header() {
   
   const user = useSelector((state) => state.user)
   const dispatch  = useDispatch()
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     dispatch(logout())
@@ -20,7 +21,7 @@ function Header() {
     if (accessToken) {
       localStorage.removeItem('accessToken')
     }
-    window.location.href = "/login"
+    navigate({ pathname: "/login" })
   }
 
   return (

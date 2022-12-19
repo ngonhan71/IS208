@@ -70,10 +70,10 @@ const hoadonController = {
             })
         }
     },
-    getRevenueLifeTime: async (req, res) => {
+    getRevenueChart: async (req, res) => {
         try {
-            const { maRapChieu } = req.query
-            const [result] = await hoadonService.getRevenueLifeTime({maRapChieu})
+            const { maRapChieu, start, end } = req.query
+            const [result] = await hoadonService.getRevenueChart({maRapChieu, start, end})
             res.json({
                 data: result,
                 message: "Ok",

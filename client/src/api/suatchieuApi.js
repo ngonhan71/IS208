@@ -17,9 +17,9 @@ const suatchieuApi = {
         const url = `suatchieu/${id}/mobile`
         return axiosClient.get(url)
     },
-    getCountLifeTime: () => {
+    getCountLifeTime: ({maRapChieu}) => {
         const url = 'suatchieu/chart/count'
-        return axiosClient.get(url)
+        return axiosClient.get(url, { params: {maRapChieu}})
     },
     create: (data) => {
         const url = `suatchieu/`

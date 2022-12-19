@@ -5,7 +5,7 @@ const router = express.Router()
 const hoadonController = require('../controllers/hoadon.controller')
 
 router.get("/nguoidung/:maNguoiDung", hoadonController.getAllByUserId)
-router.get("/chart/revenue", hoadonController.getRevenueLifeTime)
+router.get("/chart/revenue", hoadonController.getRevenueChart)
 router.get("/chart/count", hoadonController.getCountLifeTime)
 router.get("/chart/phim-ban-chay", hoadonController.getPhimBanChay)
 router.get("/chart/rapchieu-ban-chay", hoadonController.getRapChieuBanChay)

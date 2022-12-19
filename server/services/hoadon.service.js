@@ -65,14 +65,15 @@ const hoadonService = {
         const sql = "update hoadon set ma_thanhtoan = ? where ma_hoadon = ?"
         return await pool.query(sql, [maThanhToan, maHoaDon])
     }, 
-    getRevenueLifeTime: async ({maRapChieu}) => {
-        const params = []
+    getRevenueChart: async ({maRapChieu, start, end}) => {
+        const params = [start, end]
         let sql = `     select sum(ve.trigia) as trigia, DATE(ngay_mua) as ngay_mua from hoadon, ve, suatchieu, phongchieu, rapchieu 
                         where trang_thai = 1
                         and hoadon.ma_hoadon = ve.ma_hoadon
                         and ve.ma_suatchieu = suatchieu.ma_suatchieu
                         and suatchieu.ma_phongchieu = phongchieu.ma_phongchieu
-                        and phongchieu.ma_rapchieu = rapchieu.ma_rapchieu`
+                        and phongchieu.ma_rapchieu = rapchieu.ma_rapchieu
+                        and date(hoadon.ngay_mua) between ? and ?`
         if (maRapChieu) {
             sql += ` and rapchieu.ma_rapchieu = ?`
             params.push(maRapChieu)

@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import { Container, Row, Col, Tabs, Tab, Table, Modal, Button, Badge } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
+
+import { logout } from  "../../redux/actions/user"
 
 import methodData from "../DatVe/methods"
 
@@ -11,6 +14,9 @@ import format from '../../helper/format';
 
 
 export default function TaiKhoan() {
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [nguoidungData, setNguoiDungData] = useState({})
     const [dsGiaoDich, setDsGiaoDich] = useState([])
@@ -23,6 +29,16 @@ export default function TaiKhoan() {
 
     const [showModal, setShowModal] = useState(false)
     const [showCheckoutModal, setShowCheckoutModal] = useState(false)
+
+    const [changePassword, setChangePassword] = useState(false)
+
+    const [password, setPassword] = useState({
+        currentPassword: "",
+        newPassword: "",
+        confirm: ""
+    })
+
+    const [error, setError] = useState(false)
 
     const { maNguoiDung } = useSelector((state) => state.user)
 
@@ -80,6 +96,32 @@ export default function TaiKhoan() {
             }
         } else {
             alert("Tính năng đang phát triển!")
+        }
+    }
+    const handleChangePassword = async () => {
+        try {
+            const { currentPassword, newPassword, confirm } = password
+
+            if (newPassword !== confirm) {
+                return setError("Mật khẩu xác nhận không khớp!")
+            }
+
+            const { error } = await nguoidungApi.changePassword(maNguoiDung, { currentPassword, newPassword })
+
+            if (error) {
+                return setError(error)
+            }
+
+            alert("Thành công. Vui lòng đăng nhập lại!")
+            const accessToken = localStorage.getItem('accessToken')
+            if (accessToken) {
+                localStorage.removeItem('accessToken')
+                dispatch(logout())
+                navigate({ pathname: "/login" })
+            }
+
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -224,6 +266,43 @@ export default function TaiKhoan() {
                                     <input required type="text" className="form-control" value={nguoidungData?.email || ''} readOnly />
                                 </Col>
                             </Row>
+                           <div className="mt-4"> 
+                                <input id="checkbox-changepw" type="checkbox" checked={changePassword} onChange={(e) => setChangePassword(!changePassword)} />
+                                <label htmlFor='checkbox-changepw' className="ms-4">Đổi mật khẩu</label>
+                           </div>
+                            {changePassword && (
+                                <Row className="mt-2">
+                                     {error && (
+                                       <Col xl="4">
+                                            <div className="alert alert-block alert-danger">
+                                                <p>{error}</p>
+                                            </div>
+                                        </Col>
+                                    )}
+                                    <Row className="mt-2">
+                                        <Col xl="4">
+                                            <label>Mật khẩu hiện tại</label>
+                                            <input required type="password" className="form-control" placeholder="Mật khẩu hiện tại"
+                                                value={password?.currentPassword} onChange={(e) => setPassword(prev => { return {...prev, currentPassword: e.target.value}})} />
+                                        </Col>
+                                    </Row>
+                                    <Row className="mt-2">
+                                        <Col xl="4">
+                                            <label>Mật khẩu mới</label>
+                                            <input required type="password" className="form-control" placeholder="Mật khẩu mới"
+                                            value={password?.newPassword} onChange={(e) => setPassword(prev => { return {...prev, newPassword: e.target.value}})} />
+                                        </Col>
+                                    </Row>
+                                    <Row className="mt-2">
+                                        <Col xl="4">
+                                            <label>Xác nhận mật khẩu</label>
+                                            <input required type="password" className="form-control" placeholder="Xác nhận mật khẩu"
+                                            value={password?.confirm} onChange={(e) => setPassword(prev => { return {...prev, confirm: e.target.value}})} />
+                                            <Button className="mt-2" onClick={handleChangePassword}>Lưu</Button>
+                                        </Col>
+                                    </Row>
+                                </Row>
+                            )}
                         </Tab>
                         <Tab eventKey="giaodich" title="GIAO DỊCH CỦA TÔI">
                             <Row>

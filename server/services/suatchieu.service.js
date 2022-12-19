@@ -89,11 +89,19 @@ const suatchieuService = {
                         where ma_phongchieu = ? and ngay_chieu = ? and suatchieu.ma_phim = phim.ma_phim`
         return await pool.query(sql, [maPhongChieu, ngayChieu])
     },
-    getCountLifeTime: async () => {
-        const sql = `   select count(*) as count, DATE(ngay_chieu) as ngay_chieu from suatchieu 
-                        group by DATE(ngay_chieu)
-                        order by DATE(ngay_chieu)`
-        return await pool.query(sql)
+    getCountLifeTime: async ({maRapChieu}) => {
+        const params = []
+        let sql = `     select count(*) as count, DATE(ngay_chieu) as ngay_chieu 
+                        from suatchieu, phongchieu, rapchieu
+                        where suatchieu.ma_phongchieu = phongchieu.ma_phongchieu
+                        and phongchieu.ma_rapchieu = rapchieu.ma_rapchieu`
+        if (maRapChieu) {
+            sql += ` and rapchieu.ma_rapchieu = ?`
+            params.push(maRapChieu)
+        }
+        sql += `    group by DATE(ngay_chieu)
+                    order by DATE(ngay_chieu)`
+        return await pool.query(sql, params)
     },
     create: async ({gioChieu, ngayChieu, maPhongChieu, maPhim, maLoaiSuatChieu}) => {
         const sql = `   insert into suatchieu (gio_chieu, ngay_chieu, ma_phongchieu, ma_phim, ma_loaisuatchieu) 
