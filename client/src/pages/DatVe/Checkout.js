@@ -31,13 +31,16 @@ export default function Checkout() {
         if (selectedMethod === 0) {
             try {
                 setLoading(true)
+                const { payUrl, error: errorGetUrl } = await hoadonApi.getPayUrlMoMo({amount: triGia, maSuatChieu: suatChieu.ma_suatchieu, maThanhToan})
+                if (errorGetUrl) {
+                    return alert("Lỗi hệ thống MoMo. Vui lòng thử lại!")
+                }
                 const { error } = await hoadonApi.create({ maSuatChieu, dsGhe, maNguoiDung, tenPhim, triGia, maThanhToan })
                 if (error) {
                     alert(error)
                     return
                 }
                 // //insert db
-                const { payUrl } = await hoadonApi.getPayUrlMoMo({amount: triGia, maSuatChieu: suatChieu.ma_suatchieu, maThanhToan})
                 setLoading(false)
 
                 window.location.href = payUrl
