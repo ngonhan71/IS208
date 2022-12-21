@@ -17,6 +17,10 @@ const theloaiApi = {
         const url = `theloai/${id}`
         return axiosClient.put(url, data)
     },
+    delete: (id) => {
+        const url = `theloai/${id}`
+        return axiosClient.delete(url)
+    },
 }
 
 export default theloaiApi

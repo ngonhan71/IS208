@@ -8,7 +8,7 @@ const phimService = {
         return await pool.query("select count(*) as count from phim")
     },
     search: async ({key = ""}) => {
-        return await pool.query(`select * from phim where phim.ten_phim like ?`, [key])
+        return await pool.query(`select * from phim where phim.ten_phim like ? order by ngay_khoichieu desc`, [key])
     },
     getAllDangChieuAndSapChieu: async () => {
         const sql = `   SELECT phim.* FROM phim, suatchieu 

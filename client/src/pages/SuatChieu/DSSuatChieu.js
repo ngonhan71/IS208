@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
 import Select from "react-select";
 import Pagination from "../../components/Pagination"
+import { FaEdit } from "react-icons/fa";
 import format from "../../helper/format";
 import suatchieuApi from "../../api/suatchieuApi";
 import loaisuatchieuApi from "../../api/loaisuatchieuApi";
@@ -502,7 +503,7 @@ export default function DSLoaiSuatChieu() {
                                 setShowUpdateModal(true);
                               }}
                             >
-                              Sửa
+                              <FaEdit />
                             </Button>
                           </td>
                         </tr>

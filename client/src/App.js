@@ -8,6 +8,8 @@ import ProtectedRoute from "./layouts/components/ProtectedRoute"
 
 import Login from "./pages/Auth/Login"
 import Register from "./pages/Auth/Register"
+import ForgotPassword from "./pages/Auth/ForgotPass"
+import ResetPassword from "./pages/Auth/ResetPass"
 
 import Home from "./pages/Home"
 import DangChieu from "./pages/TrangPhim/DangChieu"
@@ -21,10 +23,14 @@ import MoMoCallback from "./pages/DatVe/MoMoCallback"
 import GiaVe from "./pages/GiaVe"
 
 import TaiKhoan from "./pages/TaiKhoan"
+import ChangePassword from "./pages/TaiKhoan/ChangePass"
 
 import ThongKe from "./pages/ThongKe"
+
 import DSPhim from "./pages/Phim/DSPhim"
 import AddPhim from "./pages/Phim/AddPhim"
+
+import DSTheLoai from "./pages/TheLoai/DSTheLoai"
 
 import DSSuatChieu from "./pages/SuatChieu/DSSuatChieu"
 
@@ -41,6 +47,7 @@ import DSNgayLe from "./pages/NgayLe/DSNgayLe"
 import DSHoaDon from "./pages/HoaDon/DSHoaDon"
 
 import DSKhachHang from "./pages/KhachHang/DSKhachHang"
+import DSNhanVien from "./pages/NhanVien/DSNhanVien"
 
 import { login } from "./redux/actions/user"
 import nguoidungApi from "./api/nguoidungApi"
@@ -84,6 +91,8 @@ function App() {
           <Route path="/gia-ve" element={<GiaVe />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
+          <Route path="/quen-mat-khau" element={<ForgotPassword />}></Route>
+          <Route path="/dat-lai-mat-khau/:code" element={<ResetPassword />}></Route>
 
           <Route path="/thanhtoan/momo/callback" element={<MoMoCallback />}></Route>
        </Route>
@@ -95,6 +104,11 @@ function App() {
         </Route>
       </Route>
 
+      <Route path="/" element={<ProtectedRoute isAllowed={user && user.maNguoiDung} />}>
+        <Route element={<DefaultLayout />}>
+            <Route path="tai-khoan/doi-mat-khau" element={<ChangePassword />}></Route>
+        </Route>
+      </Route>
 
         <Route path="/admin" element={<ProtectedRoute isAllowed={user && user.maNguoiDung && user.role > 0} />}>
           <Route element={<AdminLayout />}>
@@ -102,6 +116,8 @@ function App() {
 
             <Route path="phim" element={<DSPhim />}></Route>
             <Route path="phim/them" element={<AddPhim />}></Route>
+
+            <Route path="theloai" element={<DSTheLoai />}></Route>
 
             <Route path="suatchieu" element={<DSSuatChieu />}></Route>
 
@@ -120,6 +136,13 @@ function App() {
             <Route path="khachhang" element={<DSKhachHang />}></Route>
           </Route>
         </Route>
+
+        <Route path="/admin" element={<ProtectedRoute isAllowed={user && user.maNguoiDung && user.role === 2} />}>
+          <Route element={<AdminLayout />}>
+            <Route path="nhanvien" element={<DSNhanVien />}></Route>
+          </Route>
+        </Route>
+
       </Routes>
     </div>
   );

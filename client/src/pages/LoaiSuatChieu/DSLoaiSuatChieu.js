@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
+import { FaEdit } from "react-icons/fa";
 
 import format from "../../helper/format";
 import loaisuatchieuApi from "../../api/loaisuatchieuApi";
@@ -316,7 +317,7 @@ export default function DSLoaiSuatChieu() {
                                 setShowUpdateModal(true);
                               }}
                             >
-                              Sửa
+                              <FaEdit />
                             </Button>
                           </td>
                         </tr>

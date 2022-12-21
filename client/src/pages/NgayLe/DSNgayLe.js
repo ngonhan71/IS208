@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 import format from "../../helper/format";
 import ngayleApi from "../../api/ngayleApi";
@@ -14,12 +15,14 @@ export default function DSNgayLe() {
     ngay: "",
   });
   const [selectedNgayLe, setSelectedNgayLe] = useState({})
+  const [deleteNgayLe, setDeleteNgayLe] = useState({})
 
 
   const [rerender, setRerender] = useState(false);
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,11 +73,39 @@ export default function DSNgayLe() {
         setRerender(!rerender)
     } catch (error) {
         console.log(error)
+        if (error.response.status === 403 || error.response.status === 401) {
+          alert(error?.response?.data?.error)
+        }
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+        console.log(deleteNgayLe)
+        const { error } = await ngayleApi.delete(deleteNgayLe.ma_ngayle)
+        if (error) return alert(error)
+        alert("Thành công!")
+        setShowDeleteModal(false)
+        setRerender(!rerender)
+    } catch (error) {
+        console.log(error)
     }
   }
 
   return (
     <Row>
+       <Modal size="lg" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+            <Modal.Title>Xóa ngày lễ</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Bạn có chắc xóa ngày lễ: {deleteNgayLe && deleteNgayLe.ten_ngayle && <span><b>{`${deleteNgayLe.ngay} (${deleteNgayLe.ten_ngayle})`}</b></span>} này không?</p>
+        </Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Hủy</Button>
+            <Button variant="danger" onClick={handleDelete}>Xóa</Button>
+        </Modal.Footer>
+      </Modal>
       <Modal size="lg" show={showUpdateModal} onHide={() => setShowUpdateModal(false)} >
         <Modal.Header closeButton>
           <Modal.Title>Cập nhật ngày lễ</Modal.Title>
@@ -196,15 +227,17 @@ export default function DSNgayLe() {
                           <td>{item.loai}</td>
                           <td>{item.loai === "linhdong" ? format.formatDate(item.ngay) : item.ngay.split("-").reverse().join("-")}</td>
                           <td>
-                            <Button
-                              variant="warning"
-                                onClick={() => {
+                            <Button variant="warning" onClick={() => {
                                   setSelectedNgayLe(item);
                                   setShowUpdateModal(true);
                                 }}
-                            >
-                              Sửa
-                            </Button>
+                            ><FaEdit /></Button>
+                          </td>
+                          <td>
+                            <Button variant="danger" onClick={() => {
+                              setDeleteNgayLe(item)
+                              setShowDeleteModal(true)
+                            }}><FaTrashAlt /></Button>
                           </td>
                         </tr>
                       );

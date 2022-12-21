@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
+import { FaEdit } from "react-icons/fa";
 
 import DSGhe from "../../components/DSGhe"
 import phongchieuApi from "../../api/phongchieuApi"
@@ -278,7 +279,7 @@ export default function DSPhongChieu() {
                             <Button variant="warning" onClick={() => {
                               setSelectedPhongChieu(item)
                               setShowUpdateModal(true)
-                            }}>Sửa</Button>
+                            }}><FaEdit /></Button>
                           </td>
                           <td>
                             <Button variant="info" onClick={() => showDanhSachGhe(item.ma_phongchieu)}>Xem danh sách Ghế</Button>

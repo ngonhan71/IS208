@@ -86,7 +86,8 @@ export default function Login() {
                     <input required type="password" className="form-control" placeholder="Mật khẩu"
                     value={password} onChange={(e) => setPassword(e.target.value)} />
                   </Col>
-                  <Col xl={12} className="mt-4">
+                  <Link style={{textAlign: "left"}} className="mt-2" to="/quen-mat-khau">Quên mật khẩu</Link>
+                  <Col xl={12} className="mt-2">
                     <Button type="submit" variant="danger" disabled={loading}>{loading ?  "ĐĂNG NHẬP..." : "ĐĂNG NHẬP"}</Button>
                   </Col>
                 </Row>

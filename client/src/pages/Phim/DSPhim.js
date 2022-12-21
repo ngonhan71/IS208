@@ -4,15 +4,17 @@ import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
 import Select from "react-select";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { FaPlayCircle } from "react-icons/fa";
-
+import { FaPlayCircle, FaEdit } from "react-icons/fa";
 
 import format from "../../helper/format";
 import theloaiApi from "../../api/theloaiApi"
 import phimApi from "../../api/phimApi";
 
 export default function DSPhim() {
-  const [phimData, setPhimData] = useState([]);
+  const [phimData, setPhimData] = useState([])
+  const [key, setKey] = useState("")
+  const [search, setSearch] = useState("")
+  
   const [theloaiData, setTheLoaiData] = useState([])
 
   const [selectedTheLoai, setSelectedTheLoai] = useState([])
@@ -53,14 +55,14 @@ export default function DSPhim() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await phimApi.getAll({});
+        const res = await phimApi.getAll({key: search});
         setPhimData(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [rerender]);
+  }, [rerender, search]);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -208,6 +210,16 @@ export default function DSPhim() {
           <Card.Header className="title">Danh sách phim</Card.Header>
           <Card.Body>
             <Row>
+              <Col xl={3}>
+                <form onSubmit={(e) => { e.preventDefault(); setSearch(key) }}>
+                  <div className="d-flex mb-2">
+                    <input className="form-control search" placeholder="Nhập tên phim" value={key} onChange={(e) => setKey(e.target.value)} />
+                    <button type="submit" className="btn btn-primary">
+                      Tìm kiếm
+                    </button>
+                  </div>
+                </form>
+              </Col>
               <Col xl={3} className="ms-auto">
                 <div className="d-flex mb-2">
                   <button type="button" className="btn btn-success ms-auto">
@@ -264,7 +276,7 @@ export default function DSPhim() {
                               setShowUpdateModal(true);
                             }}
                           >
-                            Sửa
+                            <FaEdit />
                           </Button>
                         </td>
                       </tr>

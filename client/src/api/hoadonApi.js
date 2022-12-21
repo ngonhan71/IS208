@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient"
 
 const hoadonApi = {
-    getAll: ({page = 1, limit = 10,}) => {
+    getAll: ({page = 1, limit = 10, date}) => {
         const url = 'hoadon/'
-        return axiosClient.get(url, { params: {page, limit}})
+        return axiosClient.get(url, { params: {page, limit, date}})
     },
     getCount: () => {
         const url = 'hoadon/count'

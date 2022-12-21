@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient"
 
 const phongchieuApi = {
-    getAll: ({page = 1, limit = 10,}) => {
+    getAll: () => {
         const url = 'phongchieu/'
-        return axiosClient.get(url, { params: {page, limit}})
+        return axiosClient.get(url)
     },
     getGhe: (maPhongChieu) => {
         const url = `phongchieu/${maPhongChieu}/ds-ghe`

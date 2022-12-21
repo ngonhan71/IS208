@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button, Badge } from "react-bootstrap";
 import Pagination from "../../components/Pagination"
+import { FaEye } from "react-icons/fa"
 
 import format from "../../helper/format";
 import hoadonApi from "../../api/hoadonApi";
 
 export default function DSHoaDon() {
   const [hoadonData, setHoaDonData] = useState({});
+  const [date, setDate] = useState("")
+  const [search, setSearch] = useState("")
+
   const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(1)
 
@@ -20,7 +24,7 @@ export default function DSHoaDon() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const { data, totalPage } = await hoadonApi.getAll({limit: 4, page});
+        const { data, totalPage } = await hoadonApi.getAll({limit: 4, page, date: search});
         setLoading(false);
         setHoaDonData(data);
         setTotalPage(totalPage)
@@ -31,7 +35,7 @@ export default function DSHoaDon() {
       }
     };
     fetchData();
-  }, [page]);
+  }, [page, search]);
 
   const getOrderDetail = async (maHoaDon) => {
     try {
@@ -105,15 +109,14 @@ export default function DSHoaDon() {
           <Card.Body>
             <Row>
               <Col xl={3}>
+               <form onSubmit={(e) => { e.preventDefault(); setSearch(date) }}>
                 <div className="d-flex mb-2">
-                  <input
-                    className="form-control search"
-                    placeholder="Nhập tên, mã hóa đơn"
-                  />
-                  <button type="button" className="btn btn-primary">
-                    Tìm kiếm
-                  </button>
-                </div>
+                    <input type="date" className="form-control search" value={date} onChange={(e) => setDate(e.target.value)} />
+                    <button type="submit" className="btn btn-primary">
+                      Tìm kiếm
+                    </button>
+                  </div>
+               </form>
               </Col>
               {/* <Col xl={3} className="ms-auto">
                 <div className="d-flex mb-2">
@@ -173,17 +176,14 @@ export default function DSHoaDon() {
                           </td>
                           <td>{format.formatDateTime(item.ngay_mua)}</td>
                           <td>
-                            <Button
-                              variant="warning"
-                              onClick={() => getOrderDetail(item.ma_hoadon)}
-                            >
-                              Chi tiết
+                            <Button onClick={() => getOrderDetail(item.ma_hoadon)}>
+                              <FaEye />
                             </Button>
                           </td>
                         </tr>
                       );
                     })
-                  : null}
+                  : <tr><td>Không có hóa đơn nào!</td></tr>}
               </tbody>
             </Table>
             <div className="pagination">

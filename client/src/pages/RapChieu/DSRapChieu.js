@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
+import { FaEdit } from "react-icons/fa";
 
 import rapchieuApi from "../../api/rapchieuApi"
 
@@ -233,7 +234,7 @@ export default function DSRapChieu() {
                             <Button variant="warning" onClick={() => {
                               setSelectedRapChieu(item)
                               setShowUpdateModal(true)
-                            }}>Sửa</Button>
+                            }}><FaEdit /></Button>
                           </td>
                         </tr>
                       );

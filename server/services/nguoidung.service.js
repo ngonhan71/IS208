@@ -9,6 +9,10 @@ const nguoidungService = {
         const sql = "select * from nguoidung where role = 0"
         return await pool.query(sql)
     },
+    getAllNV: async () => {
+        const sql = "select * from nguoidung where role = 1"
+        return await pool.query(sql)
+    }, 
     getById: async (id) => {
         const sql = "select * from nguoidung where ma_nguoidung = ?"
         return await pool.query(sql, [id])
@@ -22,10 +26,10 @@ const nguoidungService = {
         const sql = "select * from nguoidung where dienthoai = ? "
         return await pool.query(sql, [dienthoai])
     },
-    create: async ({tenNguoiDung, dienthoai, email, matkhau}) => {
-        const sql = `   insert into nguoidung (ten_nguoidung, dienthoai, email, matkhau) 
-                        values (?, ?, ?, ?) `
-        return await pool.query(sql, [tenNguoiDung, dienthoai, email, matkhau])
+    create: async ({tenNguoiDung, dienthoai, email, matkhau, role = 0, trangthai = "inactive"}) => {
+        const sql = `   insert into nguoidung (ten_nguoidung, dienthoai, email, matkhau, role, trang_thai) 
+                        values (?, ?, ?, ?, ?, ?) `
+        return await pool.query(sql, [tenNguoiDung, dienthoai, email, matkhau, role, trangthai])
     },
     updateStatus: async (maNguoiDung, {trangthai}) => {
         const sql = "update nguoidung set trang_thai = ? where ma_nguoidung = ?"

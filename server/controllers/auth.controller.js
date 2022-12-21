@@ -85,7 +85,7 @@ const authController = {
             if (!email || !ma_nguoidung) res.json({error: "Code không hợp lệ!"})
             const [nguoidung] = await nguoidungService.getById(ma_nguoidung)
             if (nguoidung[0]) {
-                const { result } = await nguoidungService.updateStatus(ma_nguoidung, { trangthai: "active" })
+                const [result] = await nguoidungService.updateStatus(ma_nguoidung, { trangthai: "active" })
                 return res.json({message: "Xác minh tài khoản thành công!!"})
                 
             }
@@ -112,6 +112,10 @@ const authController = {
 
             if (trang_thai === "inactive" && role === 0) {
                 return res.json({ error: "Tài khoản của bạn chưa được kích hoạt!",  data: { ma_nguoidung } })
+            }
+
+            if (trang_thai === "inactive" && role === 1) {
+                return res.json({ error: "Tài khoản của bạn đã bị khóa! Vui lòng liên hệ người quản trị!" })
             }
             
             const accessToken = generateAccessToken({ userId: ma_nguoidung, role })

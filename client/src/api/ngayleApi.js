@@ -17,6 +17,10 @@ const ngayleApi = {
         const url = `ngayle/${id}`
         return axiosClient.put(url, data)
     },
+    delete: (id) => {
+        const url = `ngayle/${id}`
+        return axiosClient.delete(url)
+    },
 }
 
 export default ngayleApi

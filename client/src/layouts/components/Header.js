@@ -49,6 +49,7 @@ function Header() {
                                 <div className={styles.accountPopup}>
                                     { user.role === 0 && <div className={styles.item}><Link className={styles.popupLink} to="/tai-khoan">Tài khoản của tôi</Link></div> }
                                     { user.role > 0 && <div className={styles.item}><Link className={styles.popupLink} to="/admin/thongke">Quản lý</Link></div> }
+                                    <Link className={styles.popupLink} to="/tai-khoan/doi-mat-khau">Đổi mật khẩu</Link>
                                     <div className={styles.item}><p className={styles.popupLink} onClick={handleLogout} to="">Đăng xuất</p></div>
                                 </div>
                              </div>
@@ -59,26 +60,6 @@ function Header() {
                     </div>
                 </div>
               </Col>
-             
-
-              {/* <div className={`${styles.headerTopRight} d-flex`}>
-                <div className={styles.headerIcon}>
-                  {
-                    currentUser.email && currentUser.fullName ? 
-                    <div className={styles.account}>
-                      <img className={styles.avatar} src={currentUser.avatar} alt="" />
-                      <p>{currentUser.fullName}</p>
-                      <div className={styles.accountPopup}>
-                          <div className={styles.item}><Link className={styles.popupLink} to="/tai-khoan">Tài khoản của tôi</Link></div>
-                          <div className={styles.item}><Link className={styles.popupLink} to="/don-hang">Đơn hàng</Link></div>
-                          <div className={styles.item}><p className={styles.popupLink} onClick={handleLogout} to="">Đăng xuất</p></div>
-                      </div>
-                    </div>
-                    : <Link to="/dang-nhap"><BsPerson /><p>Tài khoản</p></Link>
-                  }
-                </div>
-               */}
-
             </Row>
           </Container>
             <div className={styles.navbar}>

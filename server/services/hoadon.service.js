@@ -1,19 +1,25 @@
 const pool = require("../database/index")
 
 const hoadonService = {
-    getAll: async ({limit = 5, offset = 0}) => {
-        const sql = `   select hoadon.*, hoadon.trang_thai as ttthanhtoan, nguoidung.*, suatchieu.*,  ten_phim, poster, ten_phongchieu, ten_rapchieu
+    getAll: async ({limit = 5, offset = 0, date = ""}) => {
+        const params = []
+        let sql = `   select hoadon.*, hoadon.trang_thai as ttthanhtoan, nguoidung.*, suatchieu.*,  ten_phim, poster, ten_phongchieu, ten_rapchieu
                         from hoadon, phim, suatchieu, ve, phongchieu, rapchieu, nguoidung
                         where hoadon.ma_hoadon = ve.ma_hoadon
                         and ve.ma_suatchieu = suatchieu.ma_suatchieu
                         and suatchieu.ma_phim = phim.ma_phim
                         and suatchieu.ma_phongchieu = phongchieu.ma_phongchieu
                         and rapchieu.ma_rapchieu = phongchieu.ma_rapchieu
-                        and hoadon.ma_nguoidung = nguoidung.ma_nguoidung
-                        group by hoadon.ma_hoadon
-                        order by ngay_mua desc
-                        limit ? offset ?`
-        return await pool.query(sql, [limit, offset])
+                        and hoadon.ma_nguoidung = nguoidung.ma_nguoidung`
+        if (date) {
+            sql += ` and date(hoadon.ngay_mua) = ?`
+            params.push(date)
+        }
+        params.push(limit, offset)
+        sql += `    group by hoadon.ma_hoadon
+                    order by ngay_mua desc
+                    limit ? offset ?`
+        return await pool.query(sql, params)
     },
     getById: async (maHoaDon) => {
         const sql = `   select ve.*, ghe.*, loaighe.ten_loaighe
@@ -37,9 +43,14 @@ const hoadonService = {
 			            order by ngay_mua desc`
         return await pool.query(sql, [maNguoiDung])
     },
-    getCount: async () => {
-        const sql = `select count(*) as count from hoadon`
-        return await pool.query(sql)
+    getCount: async ({date =  ""}) => {
+        const params = []
+        let sql = `select count(*) as count from hoadon where 1`
+        if (date) {
+            sql += ` and date(hoadon.ngay_mua) = ?`
+            params.push(date)
+        }
+        return await pool.query(sql, params)
     },
     getRevenue: async () => {
         const sql = `select sum(trigia) as revenue from hoadon WHERE trang_thai = 1`

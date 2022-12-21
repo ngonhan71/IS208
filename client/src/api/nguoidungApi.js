@@ -5,9 +5,16 @@ const nguoidungApi = {
         const url = 'nguoidung/khachhang'
         return axiosClient.get(url)
     },
+    getAllNV: () => {
+        const url = 'nguoidung/nhanvien'
+        return axiosClient.get(url)
+    },
     register: (data) => {
-        
         const url = 'auth/register'
+        return axiosClient.post(url, data)
+    }, 
+    createNV: (data) => {
+        const url = 'nguoidung/nhan-vien'
         return axiosClient.post(url, data)
     }, 
     login: (data) => {
@@ -28,6 +35,18 @@ const nguoidungApi = {
     },
     changePassword: (id, data) => {
         const url = `nguoidung/${id}/password`
+        return axiosClient.put(url, data)
+    },
+    forgotPassword: (data) => {
+        const url = `nguoidung/quen-mat-khau`
+        return axiosClient.post(url, data)
+    },
+    resetPassword: (data) => {
+        const url = `nguoidung/dat-lai-mat-khau`
+        return axiosClient.post(url, data)
+    },
+    updateStatus: (id, data) => {
+        const url = `nguoidung/${id}/trang-thai`
         return axiosClient.put(url, data)
     },
     

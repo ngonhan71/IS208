@@ -15,9 +15,11 @@ const hoadonController = {
             const limit = +req.query.limit || 10
             const offset = (page - 1) * limit
 
+            const date = req.query.date
+
             const [a, b] = await Promise.all([
-                hoadonService.getCount(),
-                hoadonService.getAll({limit, offset})
+                hoadonService.getCount({date}),
+                hoadonService.getAll({limit, offset, date})
             ])
 
             const [countResult] = a
@@ -40,7 +42,7 @@ const hoadonController = {
     },
     getCount: async (req, res) => {
         try {
-            const [countResult] = await hoadonService.getCount()
+            const [countResult] = await hoadonService.getCount({})
             const count = countResult[0]?.count
             res.json({
                 count,

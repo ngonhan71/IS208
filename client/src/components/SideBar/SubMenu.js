@@ -13,7 +13,7 @@ export default function SubMenu({item}) {
                     <span>{item.title}</span>
                 </div>
                 <div className="icon-open">
-                    {item.subMenu ? (subnav ?  item.iconOpened : item.iconClosed) : null}
+                    {item.subMenu ? (subnav ?  item?.iconOpened : item?.iconClosed) : null}
                 </div>
             </NavLink>
                 {subnav &&

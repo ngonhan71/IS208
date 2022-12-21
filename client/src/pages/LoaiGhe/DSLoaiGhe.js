@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
 import { SketchPicker } from 'react-color';
+import { FaEdit } from "react-icons/fa";
 
 import loaigheApi from "../../api/loaigheApi"
 import format from "../../helper/format"
@@ -209,7 +210,7 @@ export default function DSLoaiGhe() {
                             <Button variant="warning" onClick={() => {
                               setSelectedLoaiGhe(item)
                               setShowUpdateModal(true)
-                            }}>Sửa</Button>
+                            }}><FaEdit /></Button>
                           </td>
                         </tr>
                       );
