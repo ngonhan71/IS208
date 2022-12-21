@@ -21,6 +21,10 @@ const rapchieuApi = {
         const url = `rapchieu/${id}`
         return axiosClient.put(url, data)
     },
+    delete: (id) => {
+        const url = `rapchieu/${id}`
+        return axiosClient.delete(url)
+    },
 }
 
 export default rapchieuApi

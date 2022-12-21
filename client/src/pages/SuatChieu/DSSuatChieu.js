@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
 import Select from "react-select";
 import Pagination from "../../components/Pagination"
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import format from "../../helper/format";
 import suatchieuApi from "../../api/suatchieuApi";
 import loaisuatchieuApi from "../../api/loaisuatchieuApi";
@@ -32,11 +32,13 @@ export default function DSLoaiSuatChieu() {
     gioChieu: "",
   });
   const [selectedSC, setSelectedSC] = useState({});
+  const [deleteSuatChieu, setDeleteSuatChieu] = useState({})
 
   const [rerender, setRerender] = useState(false);
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -162,8 +164,31 @@ export default function DSLoaiSuatChieu() {
       }
     };
 
+     
+  const handleDelete = async (e) => {
+    try {
+      const { error } = await suatchieuApi.delete(deleteSuatChieu.ma_suatchieu)
+      if (error) return alert("Không thể xóa!!")
+      alert("Thành công!")
+      setShowDeleteModal(false)
+      setRerender(!rerender)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Row>
+       <Modal size="lg" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+            <Modal.Title>Xóa suất chiếu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có chắc xóa suất chiếu <b>{deleteSuatChieu && deleteSuatChieu.ten_phim}</b> này không?</Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Hủy</Button>
+            <Button variant="danger" onClick={handleDelete}>Xóa</Button>
+        </Modal.Footer>
+      </Modal>
       <Modal
         size="lg"
         show={showAddModal}
@@ -505,6 +530,12 @@ export default function DSLoaiSuatChieu() {
                             >
                               <FaEdit />
                             </Button>
+                          </td>
+                          <td>
+                            <Button variant="danger" onClick={() => {
+                              setDeleteSuatChieu(item)
+                              setShowDeleteModal(true)
+                            }}><FaTrashAlt /></Button>
                           </td>
                         </tr>
                       );

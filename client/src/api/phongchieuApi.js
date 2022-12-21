@@ -25,6 +25,10 @@ const phongchieuApi = {
         const url = `phongchieu/${maPhongChieu}`
         return axiosClient.put(url, data)
     },
+    delete: (id) => {
+        const url = `phongchieu/${id}`
+        return axiosClient.delete(url)
+    },
 }
 
 export default phongchieuApi

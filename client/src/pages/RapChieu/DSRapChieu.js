@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 import rapchieuApi from "../../api/rapchieuApi"
 
@@ -20,9 +20,12 @@ export default function DSRapChieu() {
     diachi: "",
     dienthoai: ""
   })
+  const [deleteRapChieu, setDeleteRapChieu] = useState({})
+
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,8 +87,30 @@ export default function DSRapChieu() {
     }
   }
 
+  const handleDelete = async (e) => {
+    try {
+      const { error } = await rapchieuApi.delete(deleteRapChieu.ma_rapchieu)
+      if (error) return alert("Không thể xóa!!")
+      alert("Thành công!")
+      setShowDeleteModal(false)
+      setRerender(!rerender)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Row>
+      <Modal size="lg" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+            <Modal.Title>Xóa rạp chiếu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có chắc xóa rạp chiếu <b>{deleteRapChieu && deleteRapChieu.ten_rapchieu}</b> này không?</Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Hủy</Button>
+            <Button variant="danger" onClick={handleDelete}>Xóa</Button>
+        </Modal.Footer>
+      </Modal>
       <Modal size="lg" show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Cập nhật rạp chiếu</Modal.Title>
@@ -235,6 +260,12 @@ export default function DSRapChieu() {
                               setSelectedRapChieu(item)
                               setShowUpdateModal(true)
                             }}><FaEdit /></Button>
+                          </td>
+                          <td>
+                            <Button variant="danger" onClick={() => {
+                              setDeleteRapChieu(item)
+                              setShowDeleteModal(true)
+                            }}><FaTrashAlt /></Button>
                           </td>
                         </tr>
                       );

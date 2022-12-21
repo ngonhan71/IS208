@@ -121,16 +121,6 @@ function App() {
 
             <Route path="suatchieu" element={<DSSuatChieu />}></Route>
 
-            <Route path="rapchieu" element={<DSRapChieu />}></Route>
-
-            <Route path="phongchieu" element={<DSPhongChieu />}></Route>
-
-            <Route path="loaisuatchieu" element={<DSLoaiSuatChieu />}></Route>
-
-            <Route path="loaighe" element={<DSLoaiGhe />}></Route>
-
-            <Route path="ngayle" element={<DSNgayLe />}></Route>
-
             <Route path="hoadon" element={<DSHoaDon />}></Route>
 
             <Route path="khachhang" element={<DSKhachHang />}></Route>
@@ -140,6 +130,16 @@ function App() {
         <Route path="/admin" element={<ProtectedRoute isAllowed={user && user.maNguoiDung && user.role === 2} />}>
           <Route element={<AdminLayout />}>
             <Route path="nhanvien" element={<DSNhanVien />}></Route>
+
+            <Route path="rapchieu" element={<DSRapChieu />}></Route>
+
+            <Route path="phongchieu" element={<DSPhongChieu />}></Route>
+
+            <Route path="loaisuatchieu" element={<DSLoaiSuatChieu />}></Route>
+
+            <Route path="loaighe" element={<DSLoaiGhe />}></Route>
+
+            <Route path="ngayle" element={<DSNgayLe />}></Route>
           </Route>
         </Route>
 

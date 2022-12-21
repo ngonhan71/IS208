@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Card, Table, Modal, Button } from "react-bootstrap";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 import DSGhe from "../../components/DSGhe"
 import phongchieuApi from "../../api/phongchieuApi"
@@ -20,6 +20,7 @@ export default function DSPhongChieu() {
     tenPhongChieu: "",
     maRapChieu: "",
   })
+  const [deletePhongChieu, setDeletePhongChieu] = useState({})
 
   const [fileExcel, setFileExcel] = useState("")
   const [importing, setImporting] = useState(false)
@@ -27,6 +28,7 @@ export default function DSPhongChieu() {
 
   const [showUpdateModal, setShowUpdateModal] = useState(false)
   const [showAddModal, setShowAddModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showDSGheModal, setShowDSGheModal] = useState(false)
   const [showImportGheModal, setShowImportGheModal] = useState(false)
 
@@ -134,8 +136,31 @@ export default function DSPhongChieu() {
     }
   }
 
+  
+  const handleDelete = async (e) => {
+    try {
+      const { error } = await phongchieuApi.delete(deletePhongChieu.ma_phongchieu)
+      if (error) return alert("Không thể xóa!!")
+      alert("Thành công!")
+      setShowDeleteModal(false)
+      setRerender(!rerender)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Row>
+      <Modal size="lg" show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+            <Modal.Title>Xóa phòng chiếu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có chắc xóa phòng chiếu <b>{deletePhongChieu && deletePhongChieu.ten_phongchieu}</b> này không?</Modal.Body>
+        <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Hủy</Button>
+            <Button variant="danger" onClick={handleDelete}>Xóa</Button>
+        </Modal.Footer>
+      </Modal>
       <Modal size="lg" show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Cập nhật phòng chiếu</Modal.Title>
@@ -260,7 +285,7 @@ export default function DSPhongChieu() {
                   <th>Tên phòng chiếu</th>
                   <th>Tên rạp chiếu</th>
                   <th>Số lượng ghế</th>
-                  <th colSpan="3">Hành động</th>
+                  <th colSpan="4">Hành động</th>
                 </tr>
               </thead>
               <tbody>
@@ -280,6 +305,12 @@ export default function DSPhongChieu() {
                               setSelectedPhongChieu(item)
                               setShowUpdateModal(true)
                             }}><FaEdit /></Button>
+                          </td>
+                          <td>
+                            <Button variant="danger" onClick={() => {
+                              setDeletePhongChieu(item)
+                              setShowDeleteModal(true)
+                            }}><FaTrashAlt /></Button>
                           </td>
                           <td>
                             <Button variant="info" onClick={() => showDanhSachGhe(item.ma_phongchieu)}>Xem danh sách Ghế</Button>

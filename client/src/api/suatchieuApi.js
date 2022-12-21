@@ -29,6 +29,10 @@ const suatchieuApi = {
         const url = `suatchieu/${id}`
         return axiosClient.put(url, data)
     },
+    delete: (id) => {
+        const url = `suatchieu/${id}`
+        return axiosClient.delete(url)
+    },
 }
 
 export default suatchieuApi

@@ -36,27 +36,27 @@ export const routes = [
   {
     title: 'Rạp chiếu',
     path: '/admin/rapchieu',
-    permissions: [roleEnum.Staff, roleEnum.Admin]
+    permissions: [roleEnum.Admin]
   },
   {
     title: 'Phòng chiếu',
     path: '/admin/phongchieu',
-    permissions: [roleEnum.Staff, roleEnum.Admin]
+    permissions: [roleEnum.Admin]
   },
   {
     title: 'Loại suất chiếu',
     path: '/admin/loaisuatchieu',
-    permissions: [roleEnum.Staff, roleEnum.Admin]
+    permissions: [roleEnum.Admin]
   },
   {
     title: 'Loại ghế',
     path: '/admin/loaighe',
-    permissions: [roleEnum.Staff, roleEnum.Admin]
+    permissions: [roleEnum.Admin]
   }, 
   {
     title: 'Ngày lễ',
     path: '/admin/ngayle',
-    permissions: [roleEnum.Staff, roleEnum.Admin]
+    permissions: [roleEnum.Admin]
   },
   {
     title: 'Hóa đơn',
